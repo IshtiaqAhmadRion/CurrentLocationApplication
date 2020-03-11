@@ -78,13 +78,17 @@ public class MapsActivity extends FragmentActivity implements
 
 
 
-        // Add a marker in Dhaka and move the camera
-//        LatLng dhaka = new LatLng(23.812301, 90.411592);
-//        mMap.addMarker(new MarkerOptions().position(dhaka).title("Marker in Dhaka"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(dhaka,14));
+//         Add a marker in Dhaka and move the camera
+        LatLng dhaka = new LatLng(23.812301, 90.411592);
+        mMap.addMarker(new MarkerOptions().position(dhaka).title("Dhaka"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(dhaka,14));
+
+
+
 
 
     }
+
 
     public boolean checkUserLocationPermission(){
 
