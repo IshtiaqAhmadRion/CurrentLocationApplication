@@ -34,7 +34,8 @@ public class MapsActivity extends FragmentActivity implements
         OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        com.google.android.gms.location.LocationListener
+        com.google.android.gms.location.LocationListener,
+        GoogleMap.OnMarkerClickListener
 
 {
 
@@ -44,6 +45,7 @@ public class MapsActivity extends FragmentActivity implements
     private Location lastLocation;
     private Marker currentUserLocationMarker;
     private static final int Request_User_Location_Code = 99;
+    private Marker myMarker;
 
 
     @Override
@@ -75,14 +77,38 @@ public class MapsActivity extends FragmentActivity implements
 
         }
 
+        LatLng dhaka = new LatLng(23.812301, 90.411592);
 
-
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.title("Dhaka");
+        markerOptions.snippet("Phone Number: 017658254543");
+        markerOptions.position(dhaka);
 
 //         Add a marker in Dhaka and move the camera
-        LatLng dhaka = new LatLng(23.812301, 90.411592);
-        mMap.addMarker(new MarkerOptions().position(dhaka).title("Dhaka"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(dhaka,14));
 
+        myMarker = mMap.addMarker(markerOptions);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(dhaka,8));
+
+
+
+        
+
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+
+                myMarker.showInfoWindow();
+
+                Toast.makeText(MapsActivity.this, "clicked", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+
+            }
+        });
 
 
 
@@ -159,7 +185,7 @@ public class MapsActivity extends FragmentActivity implements
 
 //        currentUserLocationMarker = mMap.addMarker(markerOptions);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        mMap.animateCamera(CameraUpdateFactory.zoomBy(14));
+        mMap.animateCamera(CameraUpdateFactory.zoomBy(8));
 
         if(googleApiClient != null){
             LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient,this);
@@ -192,5 +218,19 @@ public class MapsActivity extends FragmentActivity implements
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        Toast.makeText(this, "cklicked", Toast.LENGTH_SHORT).show();
+        if (marker.equals(myMarker))
+        {
+            //handle click here
+
+
+            Toast.makeText(this, "cklicked", Toast.LENGTH_SHORT).show();
+        }
+
+        return true;
     }
 }
