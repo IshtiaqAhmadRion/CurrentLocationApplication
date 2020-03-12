@@ -51,7 +51,6 @@ public class MapsActivity extends FragmentActivity implements
     private Location lastLocation;
     private Marker currentUserLocationMarker;
     private static final int Request_User_Location_Code = 99;
-//    private Marker myMarker;
 
 
     @Override
@@ -85,27 +84,18 @@ public class MapsActivity extends FragmentActivity implements
 
         LatLng dhaka = new LatLng(23.812301, 90.411592);
 
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.title("Dhaka");
-        markerOptions.snippet("Phone Number: 017658254543");
-        markerOptions.position(dhaka);
-
 //         Add a marker in Dhaka and move the camera
 
-        mMap.addMarker(markerOptions);
+        mMap.addMarker(new MarkerOptions().position(dhaka).title("Dhaka").snippet("Phone Number: 017658254543"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(dhaka,6));
 
-
-
-        
+        //marker click and show popup window and bubble window
 
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
 
                 marker.showInfoWindow();
-
-//                Toast.makeText(MapsActivity.this, "clicked", Toast.LENGTH_SHORT).show();
 
                 LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
                 View popupView = inflater.inflate(R.layout.custom_popup_window,null);
@@ -136,6 +126,8 @@ public class MapsActivity extends FragmentActivity implements
 
 
     }
+
+    //current place work
 
 
     public boolean checkUserLocationPermission(){
@@ -216,7 +208,6 @@ public class MapsActivity extends FragmentActivity implements
     }
 
 
-
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         locationRequest = new LocationRequest();
@@ -228,7 +219,6 @@ public class MapsActivity extends FragmentActivity implements
             LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
 
         }
-
 
     }
 
