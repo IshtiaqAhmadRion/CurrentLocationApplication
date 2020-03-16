@@ -53,7 +53,6 @@ public class MapsActivity extends FragmentActivity implements
     private Marker currentUserLocationMarker;
     private static final int Request_User_Location_Code = 99;
     private TextView textView;
-    private Object LatLng;
 
 
     @Override
@@ -89,9 +88,10 @@ public class MapsActivity extends FragmentActivity implements
         }
 
 
-
 //         Add a marker in Dhaka and move the camera
         LatLng shojol = new LatLng(23.812301, 90.411592);
+
+
 
         mMap.addMarker(new MarkerOptions().position(shojol).title("Shojol").snippet("017658254543"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(shojol,6));
@@ -101,11 +101,12 @@ public class MapsActivity extends FragmentActivity implements
         clickListener();
 
 
-        //         Add a marker in Dhaka and move the camera
+        //Add a marker in Dhaka and move the camera
         LatLng rion = new LatLng(23.750200, 90.391344);
 
         mMap.addMarker(new MarkerOptions().position(rion).title("Rion").snippet("0170000000000"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(rion,6));
+
         clickListener();
 
 
@@ -117,11 +118,6 @@ public class MapsActivity extends FragmentActivity implements
     private void clickListener( ) {
 
 
-            if(LatLng == "shojol" )
-            {
-                textView.setText("Shojol");
-            }
-
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
@@ -130,6 +126,19 @@ public class MapsActivity extends FragmentActivity implements
 
                 LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
                 View popupView = inflater.inflate(R.layout.custom_popup_window,null);
+                TextView textView = popupView.findViewById(R.id.buyer_name);
+
+                if(marker.getPosition().latitude == 23.812301 && marker.getPosition().longitude == 90.411592 ){
+                    textView.setText("SHOJOL");
+                }
+
+                if(marker.getPosition().latitude == 23.750200 && marker.getPosition().longitude == 90.391344 ){
+                    textView.setText("RION");
+                }
+
+
+
+
 
                 int width = LinearLayout.LayoutParams.MATCH_PARENT;
                 int height = LinearLayout.LayoutParams.WRAP_CONTENT;
