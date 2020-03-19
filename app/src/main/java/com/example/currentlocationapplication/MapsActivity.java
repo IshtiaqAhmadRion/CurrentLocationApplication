@@ -38,6 +38,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Objects;
+
 public class MapsActivity extends FragmentActivity implements
         OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
@@ -53,6 +57,7 @@ public class MapsActivity extends FragmentActivity implements
     private Marker currentUserLocationMarker;
     private static final int Request_User_Location_Code = 99;
     private TextView textView;
+    private ArrayList<Model> dataList;
 
 
     @Override
@@ -72,6 +77,21 @@ public class MapsActivity extends FragmentActivity implements
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        Model m1=new Model("Shojol","23.812301","90.411592","Dhaka","0177154278");
+        Model m2=new Model("Shojol","23.812303","90.411592","Dhaka","0177154278");
+        Model m3=new Model("Shojol","23.812305","90.411592","Dhaka","0177154278");
+        Model m4=new Model("Shojol","23.812307","90.411592","Dhaka","0177154278");
+        Model m5=new Model("Shojol","23.8123010","90.411592","Dhaka","0177154278");
+        dataList=new ArrayList<>();
+
+        dataList.add(m1);
+        dataList.add(m2);
+        dataList.add(m3);
+        dataList.add(m4);
+        dataList.add(m5);
+
+
+
 
     }
 
@@ -87,29 +107,17 @@ public class MapsActivity extends FragmentActivity implements
 
         }
 
+        if (dataList != null){
+            for (Model data:dataList){
+                //         Add a marker in Dhaka and move the camera
+                LatLng latLng = new LatLng(Double.parseDouble(data.getLat()),Double.parseDouble(data.getLng()) );
 
-//         Add a marker in Dhaka and move the camera
-        LatLng shojol = new LatLng(23.812301, 90.411592);
-
-
-
-        mMap.addMarker(new MarkerOptions().position(shojol).title("Shojol").snippet("017658254543"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(shojol,6));
-
-        //marker click and show popup window and bubble window
-
-        clickListener();
-
-
-        //Add a marker in Dhaka and move the camera
-        LatLng rion = new LatLng(23.750200, 90.391344);
-
-        mMap.addMarker(new MarkerOptions().position(rion).title("Rion").snippet("0170000000000"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(rion,6));
-
-        clickListener();
-
-
+                Marker marker=mMap.addMarker(new MarkerOptions().position(latLng).title(data.getName()).snippet(data.getNumber()));
+                marker.setTag(data.getName());
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,6));
+                clickListener();
+            }
+        }
 
 
     }
@@ -122,22 +130,18 @@ public class MapsActivity extends FragmentActivity implements
             @Override
             public boolean onMarkerClick(Marker marker) {
 
-                marker.showInfoWindow();
-
                 LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
                 View popupView = inflater.inflate(R.layout.custom_popup_window,null);
-                TextView textView = popupView.findViewById(R.id.buyer_name);
+                final TextView textView = popupView.findViewById(R.id.buyer_name);
+                final TextView address = popupView.findViewById(R.id.buyer_address);
 
-                if(marker.getPosition().latitude == 23.812301 && marker.getPosition().longitude == 90.411592 ){
-                    textView.setText("SHOJOL");
+                marker.showInfoWindow();
+                for (Model data:dataList){
+                    if (Objects.requireNonNull(marker.getTag()).equals(data.getName())){
+                        textView.setText(data.getName());
+                        address.setText(data.getAddress());
+                    }
                 }
-
-                if(marker.getPosition().latitude == 23.750200 && marker.getPosition().longitude == 90.391344 ){
-                    textView.setText("RION");
-                }
-
-
-
 
 
                 int width = LinearLayout.LayoutParams.MATCH_PARENT;
