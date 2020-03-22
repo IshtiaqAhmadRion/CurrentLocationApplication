@@ -78,7 +78,7 @@ public class MapsActivity extends FragmentActivity implements
         mapFragment.getMapAsync(this);
 
         Model m1=new Model("Shojol","23.812301","90.411592","Dhaka","0177154278");
-        Model m2=new Model("Shojol","23.812303","90.411592","Dhaka","0177154278");
+        Model m2=new Model("Rion","23.90","90.50","uttara","0170000000");
         Model m3=new Model("Shojol","23.812305","90.411592","Dhaka","0177154278");
         Model m4=new Model("Shojol","23.812307","90.411592","Dhaka","0177154278");
         Model m5=new Model("Shojol","23.8123010","90.411592","Dhaka","0177154278");
